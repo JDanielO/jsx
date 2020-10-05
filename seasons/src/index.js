@@ -7,7 +7,13 @@ const App = () => {
     (err) => console.log(err)
   );
 
-  return <div>Hi There!</div>;
+  return <div>Latitude: </div>;
 };
+
+class App extends React.Component {
+  render() {
+    return <div>Latitude: </div>;
+  }
+}
 
 ReactDOM.render(<App />, document.querySelector("#root"));
