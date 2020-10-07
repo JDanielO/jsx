@@ -1,38 +1,38 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import SeasonDisplay from "./SeasonDisplay";
+import Spinner from "./Spinner";
 
-<<<<<<< HEAD
 class App extends React.Component {
   constructor(props) {
     super(props);
     //only time we do direct assignment to this.state
-    this.state = { lat: null }; // initialize the state object
+    this.state = { lat: null, errorMessage: "" }; // initialize the state object
+  }
 
+  componentDidMount() {
     window.navigator.geolocation.getCurrentPosition(
-      (position) => {
-        // we called set setState!!!!!!
-        this.setState({ lat: [position.coords.latitude] });
-      },
-      (err) => console.log(err)
+      (position) => this.setState({ lat: [position.coords.latitude] }),
+      (err) => this.setState({ errorMessage: err.message })
     );
   }
 
-  render() {
-    return <div>Latitude: {this.state.lat}</div>;
-=======
-const App = () => {
-  window.navigator.geolocation.getCurrentPosition(
-    (position) => console.log(position),
-    (err) => console.log(err)
-  );
+  componentDidUpdate() {
+    console.log("My component was just re-updated! It re-rendered. ");
+  }
 
-  return <div>Latitude: </div>;
-};
+  renderContent() {
+    if (this.state.errorMessage && !this.state.lat) {
+      return <div> Error: {this.state.errorMessage}</div>;
+    }
+    if (!this.state.errorMessage && this.state.lat) {
+      return <SeasonDisplay lat={this.state.lat} />;
+    }
+    return <Spinner message="Please accept location request" />;
+  }
 
-class App extends React.Component {
   render() {
-    return <div>Latitude: </div>;
->>>>>>> 7b82b45a752c291540facbf848a86453b62cfb4e
+    return <div className="border red">{this.renderContent()}</div>;
   }
 }
 
